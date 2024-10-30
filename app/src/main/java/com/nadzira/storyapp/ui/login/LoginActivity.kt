@@ -5,9 +5,12 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +48,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+
+        binding.emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setLoginButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {}
+        })
+
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setLoginButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {}
+        })
+
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             viewModel.saveSession(UserModel(email, "sample_token"))
@@ -83,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(100)
 
+        setLoginButtonEnable()
         AnimatorSet().apply {
             playSequentially(
                 title,
@@ -97,4 +118,9 @@ class LoginActivity : AppCompatActivity() {
         }.start()
     }
 
+    private fun setLoginButtonEnable() {
+        val email = binding.emailEditText.text
+        val password = binding.passwordEditText.text
+        binding.loginButton.isEnabled = !email.isNullOrEmpty() && !password.isNullOrEmpty()
+    }
 }
