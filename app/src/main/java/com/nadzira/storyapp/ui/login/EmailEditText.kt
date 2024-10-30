@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.nadzira.storyapp.R
 
-class EditText @JvmOverloads constructor(
+class EmailEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatEditText(context, attrs), View.OnTouchListener {
 
@@ -29,6 +29,11 @@ class EditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
+                if (s.toString().length < 8) {
+                    setError("Email tidak boleh kurang dari 8 karakter", null)
+                } else {
+                    error = null
+                }
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -40,7 +45,7 @@ class EditText @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         hint = "Masukkan nama Anda"
-        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+        textAlignment = TEXT_ALIGNMENT_VIEW_START
     }
 
     private fun showClearButton() {
@@ -61,7 +66,7 @@ class EditText @JvmOverloads constructor(
             val clearButtonEnd: Float
             var isClearButtonClicked = false
 
-            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+            if (layoutDirection == LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
                 when {
                     event.x < clearButtonEnd -> isClearButtonClicked = true
