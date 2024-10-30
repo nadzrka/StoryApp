@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="title_login_page">Login</string>
+    <string name="message_login_page">Please fill your data</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+</resources>
