@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nadzira.storyapp.MainViewModel
 import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.login.LoginViewModel
+import com.nadzira.storyapp.ui.register.RegisterViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -17,6 +18,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
+                RegisterViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
