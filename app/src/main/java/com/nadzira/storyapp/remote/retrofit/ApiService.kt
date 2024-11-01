@@ -30,8 +30,8 @@ interface ApiService {
     suspend fun getStories(
     ): StoryResponse
 
-    @GET("events/{id}")
-    fun getDetailStory(
+    @GET("stories/{id}")
+    suspend fun getDetailStory(
         @Path("id") storyId: String
     ): DetailResponse
 }
