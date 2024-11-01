@@ -42,7 +42,18 @@ class NewActivity : AppCompatActivity() {
     }
 
     private fun startCamera() {
-        Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
+        currentImageUri = Utils().getImageUri(this)
+        launcherIntentCamera.launch(currentImageUri!!)
+    }
+
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { isSuccess ->
+        if (isSuccess) {
+            showImage()
+        } else {
+            currentImageUri = null
+        }
     }
 
     private fun startCameraX() {
