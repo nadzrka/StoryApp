@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nadzira.storyapp.databinding.ActivityStoryBinding
@@ -33,7 +34,13 @@ class StoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
         userPreference = UserPreference.getInstance(dataStore)
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+
 
         setupRecyclerView()
         observeUserSession()

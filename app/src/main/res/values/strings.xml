@@ -19,4 +19,7 @@
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
     <string name="empty_image_warning">No image chosed</string>
+    <string name="detail_story">Detail</string>
+    <string name="new_story">New Story</string>
+    <string name="description">Description</string>
 </resources>

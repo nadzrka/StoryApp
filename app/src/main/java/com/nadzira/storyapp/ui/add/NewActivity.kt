@@ -23,6 +23,7 @@ import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
 import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.dataStore
+import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -63,6 +64,21 @@ class NewActivity : AppCompatActivity() {
 
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+        }
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(
+                ContextCompat.getDrawable(
+                    this@NewActivity,
+                    R.drawable.arrow_back_24dp
+                )
+            )
+            title = getString(R.string.new_story)
         }
 
         binding.galleryButton.setOnClickListener { startGallery() }
@@ -162,6 +178,11 @@ class NewActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

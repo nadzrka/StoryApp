@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,6 +26,21 @@ class DetailActivity : AppCompatActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(
+                ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.arrow_back_24dp
+                )
+            )
+            title = getString(R.string.detail_story)
+        }
 
         val storyId = intent.getStringExtra(EXTRA_STORY_ID)
         if (storyId != null) {

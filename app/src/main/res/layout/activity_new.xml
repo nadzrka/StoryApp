@@ -16,6 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue"
+        app:titleMargin="20dp"
+        app:titleTextColor="@android:color/white" />
+
     <ImageView
         android:id="@+id/previewImageView"
         android:layout_width="0dp"
@@ -27,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cameraButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:srcCompat="@drawable/ic_place_holder" />
 
     <Button
@@ -100,6 +109,6 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:hint="Description" />
+        android:hint="@string/description" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
