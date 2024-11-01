@@ -22,4 +22,8 @@
     <string name="detail_story">Detail</string>
     <string name="new_story">New Story</string>
     <string name="description">Description</string>
+    <string name="Account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="title_logout_page">Logout</string>
+    <string name="message_logout_page">Are you sure you want to logout?</string>
 </resources>

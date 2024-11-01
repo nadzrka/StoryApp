@@ -31,6 +31,10 @@ class Repository private constructor(
         userPreference.saveSession(user)
     }
 
+    suspend fun clearSession() {
+        userPreference.logout()
+    }
+
     suspend fun register(name: String, email: String, password: String) {
         showLoading(true)
         try {

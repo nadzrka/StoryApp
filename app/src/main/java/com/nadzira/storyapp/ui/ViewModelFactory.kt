@@ -8,6 +8,7 @@ import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.add.NewViewModel
 import com.nadzira.storyapp.ui.detail.DetailViewModel
 import com.nadzira.storyapp.ui.login.LoginViewModel
+import com.nadzira.storyapp.ui.logout.LogoutViewModel
 import com.nadzira.storyapp.ui.register.RegisterViewModel
 import com.nadzira.storyapp.ui.story.StoryViewModel
 
@@ -33,6 +34,9 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             }
             modelClass.isAssignableFrom(NewViewModel::class.java) -> {
                 NewViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(LogoutViewModel::class.java) -> {
+                LogoutViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

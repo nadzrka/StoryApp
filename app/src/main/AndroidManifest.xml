@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.logout.LogoutActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.add.NewActivity"
             android:exported="false" />

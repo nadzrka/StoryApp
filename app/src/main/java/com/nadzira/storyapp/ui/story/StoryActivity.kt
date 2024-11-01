@@ -3,6 +3,7 @@ package com.nadzira.storyapp.ui.story
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -20,6 +21,7 @@ import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.ui.add.NewActivity
+import com.nadzira.storyapp.ui.logout.LogoutActivity
 
 class StoryActivity : AppCompatActivity() {
     private var _binding: ActivityStoryBinding? = null
@@ -46,6 +48,11 @@ class StoryActivity : AppCompatActivity() {
         observeUserSession()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_logout, menu)
+        return true
+    }
+
     private fun observeUserSession() {
         lifecycleScope.launch {
             userPreference.getSession().collect { user ->
@@ -65,6 +72,10 @@ class StoryActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             val intent = Intent(this, NewActivity::class.java)
             startActivity(intent)
+        }
+
+        binding?.imageButton?.setOnClickListener {
+            startActivity(Intent(this, LogoutActivity::class.java))
         }
     }
 
