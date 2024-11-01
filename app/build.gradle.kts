@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-}
+    id("com.google.devtools.ksp")}
+
 
 android {
     namespace = "com.nadzira.storyapp"
@@ -41,10 +42,9 @@ android {
 }
 
 dependencies {
-
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.activity.ktx)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -10,4 +10,8 @@
     <string name="title_register_page">Register</string>
     <string name="title_welcome_page">Welcome</string>
     <string name="message_welcome_page">Welcome to Story App!</string>
+    <string name="no_story_found">No stories found</string>
+    <string name="story_name">Story name</string>
+    <string name="story_description">Description</string>
+    <string name="event_name">event name</string>
 </resources>

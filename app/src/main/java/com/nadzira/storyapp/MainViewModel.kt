@@ -1,4 +1,3 @@
 package com.nadzira.storyapp
 
-class MainViewModel {
-}
+class MainViewModel

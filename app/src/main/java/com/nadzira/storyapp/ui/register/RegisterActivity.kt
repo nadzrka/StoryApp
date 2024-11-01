@@ -2,7 +2,6 @@ package com.nadzira.storyapp.ui.register
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -14,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import com.nadzira.storyapp.databinding.ActivityRegisterBinding
 import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlin.getValue
@@ -57,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
 
             registerViewModel.register(name, email, password)

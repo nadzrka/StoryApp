@@ -2,7 +2,7 @@ package com.nadzira.storyapp.ui.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -12,11 +12,10 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.nadzira.storyapp.databinding.ActivityLoginBinding
-import com.nadzira.storyapp.ui.UserModel
 import com.nadzira.storyapp.ui.ViewModelFactory
+import com.nadzira.storyapp.ui.story.StoryActivity
 
 class LoginActivity : AppCompatActivity() {
     private val loginViewModel by viewModels<LoginViewModel> {
@@ -62,7 +61,8 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.loginResult.observe(this) { user ->
                 if (user != null && user.isLogin) {
                     loginViewModel.saveSession(user)
-                    showConfirmationDialog()
+                    startActivity(Intent(this, StoryActivity::class.java))
+                    finish()
                 }
             }
         }
@@ -80,16 +80,6 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.emailEditText.text
         val password = binding.passwordEditText.text
         binding.loginButton.isEnabled = !email.isNullOrEmpty() && !password.isNullOrEmpty()
-    }
-
-    private fun showConfirmationDialog() {
-        AlertDialog.Builder(this).apply {
-            setTitle("Yeah!")
-            setMessage("Login succeed")
-            setPositiveButton("Continue") { _, _ -> finish() }
-            create()
-            show()
-        }
     }
 
     private fun playAnimation() {

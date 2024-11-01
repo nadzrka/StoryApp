@@ -45,7 +45,7 @@ class PasswordEditText @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         hint = "Masukkan nama Anda"
-        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+        textAlignment = TEXT_ALIGNMENT_VIEW_START
     }
 
     private fun showClearButton() {
@@ -66,7 +66,7 @@ class PasswordEditText @JvmOverloads constructor(
             val clearButtonEnd: Float
             var isClearButtonClicked = false
 
-            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+            if (layoutDirection == LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
                 when {
                     event.x < clearButtonEnd -> isClearButtonClicked = true
