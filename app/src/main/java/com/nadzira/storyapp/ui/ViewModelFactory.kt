@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nadzira.storyapp.MainViewModel
 import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.ui.add.NewViewModel
 import com.nadzira.storyapp.ui.detail.DetailViewModel
 import com.nadzira.storyapp.ui.login.LoginViewModel
 import com.nadzira.storyapp.ui.register.RegisterViewModel
@@ -29,6 +30,9 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(NewViewModel::class.java) -> {
+                NewViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

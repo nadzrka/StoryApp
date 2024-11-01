@@ -13,6 +13,7 @@ import com.nadzira.storyapp.databinding.ActivityNewBinding
 import android.Manifest
 import android.content.Intent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -20,6 +21,7 @@ import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
+import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.dataStore
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -27,12 +29,16 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import kotlin.getValue
 
 class NewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewBinding
     private var currentImageUri: Uri? = null
     private lateinit var userPreference: UserPreference
+    private val newViewModel by viewModels<NewViewModel> {
+        ViewModelFactory.getInstance(application)
+    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -137,6 +143,7 @@ class NewActivity : AppCompatActivity() {
                     val apiService = ApiConfig.getApiService(userModel.token)
                     val successResponse = apiService.addStory(multipartBody, requestBody)
                     showToast(successResponse.message.toString())
+                        finish()
                     showLoading(false)
                     }
                 } catch (e: HttpException) {

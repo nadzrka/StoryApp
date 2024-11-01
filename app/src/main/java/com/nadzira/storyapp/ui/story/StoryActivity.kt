@@ -114,6 +114,15 @@ class StoryActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        storyViewModel.getStories().observe(this) { result ->
+            if (result is Result.Success) {
+                storyAdapter.submitList(result.data)
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
