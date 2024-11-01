@@ -17,6 +17,8 @@ import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.dataStore
 import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
+import com.nadzira.storyapp.R
+import com.nadzira.storyapp.ui.add.NewActivity
 
 class StoryActivity : AppCompatActivity() {
     private var _binding: ActivityStoryBinding? = null
@@ -51,6 +53,11 @@ class StoryActivity : AppCompatActivity() {
         binding?.rvEvent?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = storyAdapter
+        }
+        val fab: View = findViewById(R.id.addButton)
+        fab.setOnClickListener { view ->
+            val intent = Intent(this, NewActivity::class.java)
+            startActivity(intent)
         }
     }
 

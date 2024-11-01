@@ -14,4 +14,8 @@
     <string name="story_name">Story name</string>
     <string name="story_description">Description</string>
     <string name="event_name">event name</string>
+    <string name="camera">Camera</string>
+    <string name="camera_x">CameraX</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
 </resources>

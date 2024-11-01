@@ -44,7 +44,7 @@ class PasswordEditText @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Masukkan nama Anda"
+        hint = "Masukkan password Anda"
         textAlignment = TEXT_ALIGNMENT_VIEW_START
     }
 
