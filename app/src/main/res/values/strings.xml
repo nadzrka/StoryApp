@@ -18,4 +18,5 @@
     <string name="camera_x">CameraX</string>
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
+    <string name="empty_image_warning">No image chosed</string>
 </resources>
