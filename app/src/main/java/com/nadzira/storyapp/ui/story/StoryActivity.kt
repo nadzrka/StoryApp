@@ -48,11 +48,6 @@ class StoryActivity : AppCompatActivity() {
         observeUserSession()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_logout, menu)
-        return true
-    }
-
     private fun observeUserSession() {
         lifecycleScope.launch {
             userPreference.getSession().collect { user ->
