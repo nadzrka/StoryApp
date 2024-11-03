@@ -29,8 +29,8 @@ class EmailEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                if (s.toString().length < 8) {
-                    setError("Email tidak boleh kurang dari 8 karakter", null)
+                if (!s.contains("@") || s.length < 8) {
+                    setError(context.getString(R.string.email_error), null)
                 } else {
                     error = null
                 }
@@ -44,7 +44,7 @@ class EmailEditText @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Masukkan email Anda"
+        hint = context.getString(R.string.fill_email)
         textAlignment = TEXT_ALIGNMENT_VIEW_START
     }
 

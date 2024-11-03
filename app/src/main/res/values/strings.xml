@@ -26,4 +26,9 @@
     <string name="logout">Logout</string>
     <string name="title_logout_page">Logout</string>
     <string name="message_logout_page">Are you sure you want to logout?</string>
+    <string name="fill_email">Masukkan email Anda</string>
+    <string name="email_error">Please enter a valid email</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

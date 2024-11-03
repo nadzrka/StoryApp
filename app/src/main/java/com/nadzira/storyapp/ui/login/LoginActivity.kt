@@ -59,10 +59,12 @@ class LoginActivity : AppCompatActivity() {
 
             loginViewModel.login(email, password)
             loginViewModel.loginResult.observe(this) { user ->
-                if (user != null && user.isLogin) {
+                if (user != null) {
                     loginViewModel.saveSession(user)
-                    val intent = Intent(this, StoryActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    val intent = Intent(this, StoryActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
                     startActivity(intent)
                 }
             }
