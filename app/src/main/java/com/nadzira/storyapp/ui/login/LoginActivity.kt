@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
             loginViewModel.login(email, password)
             loginViewModel.loginResult.observe(this) { user ->
-                if (user != null) {
+                if (user != null && user.isLogin) {
                     loginViewModel.saveSession(user)
 
                     val intent = Intent(this, StoryActivity::class.java).apply {
