@@ -26,10 +26,12 @@
     <string name="logout">Logout</string>
     <string name="title_logout_page">Logout</string>
     <string name="message_logout_page">Are you sure you want to logout?</string>
-    <string name="fill_email">Masukkan email Anda</string>
+    <string name="fill_email">Enter your email</string>
     <string name="email_error">Please enter a valid email</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">Story App</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="empty_text">empty</string>
+    <string name="fill_name">Enter your name</string>
+    <string name="fill_password">Enter your password</string>
 </resources>

@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="title_login_page">Login</string>
+    <string name="message_login_page">Isikan Datamu</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="name">Nama</string>
+    <string name="title_register_page">Register</string>
+    <string name="title_welcome_page">Selamat Datang</string>
+    <string name="message_welcome_page">Selamat Datang di Story App!</string>
+    <string name="no_story_found">Cerita tidak ditemukan</string>
+    <string name="story_name">Nama cerita</string>
+    <string name="story_description">Deskripsi</string>
+    <string name="event_name">event name</string>
+    <string name="camera">Kamera</string>
+    <string name="camera_x">CameraX</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload">Unggah</string>
+    <string name="empty_image_warning">Gambar belum dipilih</string>
+    <string name="detail_story">Detail</string>
+    <string name="new_story">Cerita baru</string>
+    <string name="description">Deskripsi</string>
+    <string name="Account">Akun</string>
+    <string name="logout">Logout</string>
+    <string name="title_logout_page">Logout</string>
+    <string name="message_logout_page">Apakah kamu yakin akan keluar?</string>
+    <string name="fill_email">Masukkan email Anda</string>
+    <string name="email_error">Masukkan email valid</string>
+    <string name="appwidget_text">Story App</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">Deskripsi widget</string>
+    <string name="empty_text">kosong</string>
+    <string name="fill_name">Masukkan nama Anda</string>
+    <string name="fill_password">Masukkan password Anda</string>
+</resources>
