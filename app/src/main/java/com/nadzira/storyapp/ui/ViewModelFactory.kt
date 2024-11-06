@@ -1,10 +1,8 @@
 package com.nadzira.storyapp.ui
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nadzira.storyapp.MainViewModel
-import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.add.NewViewModel
 import com.nadzira.storyapp.ui.detail.DetailViewModel
 import com.nadzira.storyapp.ui.login.LoginViewModel
@@ -12,7 +10,8 @@ import com.nadzira.storyapp.ui.logout.LogoutViewModel
 import com.nadzira.storyapp.ui.register.RegisterViewModel
 import com.nadzira.storyapp.ui.story.StoryViewModel
 
-class ViewModelFactory(private val repository: Repository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val repository: Repository)
+    : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -42,17 +41,4 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
         }
     }
 
-    companion object {
-        @Volatile
-        private var INSTANCE: ViewModelFactory? = null
-        @JvmStatic
-        fun getInstance(context: Context): ViewModelFactory {
-            if (INSTANCE == null) {
-                synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
-                }
-            }
-            return INSTANCE as ViewModelFactory
-        }
-    }
 }

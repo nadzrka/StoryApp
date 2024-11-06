@@ -3,7 +3,6 @@ package com.nadzira.storyapp.ui.story
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -16,10 +15,10 @@ import com.nadzira.storyapp.remote.response.ListStoryItem
 import com.nadzira.storyapp.ui.Result
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.ViewModelFactory
-import com.nadzira.storyapp.ui.dataStore
 import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import com.nadzira.storyapp.R
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.add.NewActivity
 import com.nadzira.storyapp.ui.logout.LogoutActivity
 
@@ -29,7 +28,7 @@ class StoryActivity : AppCompatActivity() {
     private lateinit var storyAdapter: StoryAdapter
     private lateinit var userPreference: UserPreference
     private val storyViewModel by viewModels<StoryViewModel> {
-        ViewModelFactory.getInstance(application)
+        ViewModelFactory(Injection.provideRepository(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +36,11 @@ class StoryActivity : AppCompatActivity() {
         _binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        userPreference = UserPreference.getInstance(dataStore)
+        userPreference = UserPreference(this)
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
-
 
         setupRecyclerView()
         observeUserSession()
@@ -50,12 +48,16 @@ class StoryActivity : AppCompatActivity() {
 
     private fun observeUserSession() {
         lifecycleScope.launch {
-            userPreference.getSession().collect { user ->
-                val userToken = user.token
-                observeStories(userToken)
+            val session = userPreference.getSession()
+            val token = session.token
+            if (token != null) {
+                observeStories(token)
+            } else {
+                showError("User session not found.")
             }
         }
     }
+
 
     private fun setupRecyclerView() {
         storyAdapter = StoryAdapter { navigateToDetailEvent(it) }
@@ -73,6 +75,8 @@ class StoryActivity : AppCompatActivity() {
             startActivity(Intent(this, LogoutActivity::class.java))
         }
     }
+
+
 
     private fun observeStories(token: String) {
         if (token.isNotEmpty()) {

@@ -19,11 +19,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
 import com.nadzira.storyapp.ui.ViewModelFactory
-import com.nadzira.storyapp.ui.dataStore
-import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -38,7 +37,7 @@ class NewActivity : AppCompatActivity() {
     private var currentImageUri: Uri? = null
     private lateinit var userPreference: UserPreference
     private val newViewModel by viewModels<NewViewModel> {
-        ViewModelFactory.getInstance(application)
+        ViewModelFactory(Injection.provideRepository(this))
     }
 
     private val requestPermissionLauncher =
@@ -59,9 +58,7 @@ class NewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        userPreference = UserPreference.getInstance(dataStore)
-
+        userPreference = UserPreference(this)
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
@@ -155,12 +152,16 @@ class NewActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    userPreference.getSession().collect { userModel ->
-                    val apiService = ApiConfig.getApiService(userModel.token)
-                    val successResponse = apiService.addStory(multipartBody, requestBody)
-                    showToast(successResponse.message.toString())
+                    val token = userPreference.getSession().token
+                    if (token != null) {
+                        val apiService = ApiConfig.getApiService(token)
+                        val successResponse = apiService.addStory(multipartBody, requestBody)
+                        showToast(successResponse.message.toString())
                         finish()
-                    showLoading(false)
+                        showLoading(false)
+                    } else {
+                        showToast("User not logged in")
+                        showLoading(false)
                     }
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
@@ -171,6 +172,7 @@ class NewActivity : AppCompatActivity() {
             }
         } ?: showToast(getString(R.string.empty_image_warning))
     }
+
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE

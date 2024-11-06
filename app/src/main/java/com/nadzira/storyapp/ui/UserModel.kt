@@ -1,7 +1,11 @@
 package com.nadzira.storyapp.ui
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class UserModel(
-    val email: String,
-    val token: String,
-    val isLogin: Boolean = false
-)
+    var user: String? = null,
+    var token: String? = null,
+    var isLogin: Boolean = false
+) : Parcelable

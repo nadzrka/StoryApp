@@ -11,12 +11,13 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.nadzira.storyapp.databinding.ActivityLogoutBinding
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.welcome.WelcomeActivity
 
 class LogoutActivity : AppCompatActivity() {
     private val logoutViewModel by viewModels<LogoutViewModel> {
-        ViewModelFactory.getInstance(this)
+        ViewModelFactory(Injection.provideRepository(this))
     }
     private lateinit var binding: ActivityLogoutBinding
 

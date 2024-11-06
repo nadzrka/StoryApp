@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityDetailBinding
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.remote.response.Story
 import com.nadzira.storyapp.ui.Result
 import com.nadzira.storyapp.ui.ViewModelFactory
@@ -18,7 +19,7 @@ import com.nadzira.storyapp.ui.ViewModelFactory
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val detailViewModel by viewModels<DetailViewModel> {
-        ViewModelFactory.getInstance(application)
+        ViewModelFactory(Injection.provideRepository(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

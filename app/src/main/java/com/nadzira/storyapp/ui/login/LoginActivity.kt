@@ -11,22 +11,31 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+
 import com.nadzira.storyapp.databinding.ActivityLoginBinding
+import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.story.StoryActivity
 
 class LoginActivity : AppCompatActivity() {
     private val loginViewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this)
+        ViewModelFactory(Injection.provideRepository(this))
     }
+
+    private lateinit var userPreference: UserPreference
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        userPreference = UserPreference(this)
 
         setupView()
         setupAction()
@@ -46,6 +55,10 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun setupAction() {
         binding.emailEditText.addTextChangedListener(inputWatcher)
         binding.passwordEditText.addTextChangedListener(inputWatcher)
@@ -59,14 +72,14 @@ class LoginActivity : AppCompatActivity() {
 
             loginViewModel.login(email, password)
             loginViewModel.loginResult.observe(this) { user ->
-                if (user != null && user.isLogin) {
+                if (user?.token != null) {
                     loginViewModel.saveSession(user)
 
                     val intent = Intent(this, StoryActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                     startActivity(intent)
-                }
+                } else showError("User session not found.")
             }
         }
     }

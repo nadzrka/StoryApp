@@ -14,13 +14,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.nadzira.storyapp.databinding.ActivityRegisterBinding
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlin.getValue
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val registerViewModel by viewModels<RegisterViewModel> {
-        ViewModelFactory.getInstance(application)
+        ViewModelFactory(Injection.provideRepository(this))
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

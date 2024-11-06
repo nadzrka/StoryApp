@@ -8,13 +8,22 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.nadzira.storyapp.databinding.ActivityWelcomeBinding
+import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.login.LoginActivity
+import com.nadzira.storyapp.ui.login.LoginViewModel
 import com.nadzira.storyapp.ui.register.RegisterActivity
+import com.nadzira.storyapp.ui.story.StoryActivity
+import kotlin.getValue
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
+    private val loginViewModel by viewModels<LoginViewModel> {
+        ViewModelFactory(Injection.provideRepository(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +33,16 @@ class WelcomeActivity : AppCompatActivity() {
         setupView()
         setupAction()
         playAnimation()
+        loginViewModel.loginResult.observe(this) { user ->
+            if (user?.token != null) {
+                loginViewModel.saveSession(user)
+
+                val intent = Intent(this, StoryActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(intent)
+            }
+        }
     }
 
     private fun setupView() {

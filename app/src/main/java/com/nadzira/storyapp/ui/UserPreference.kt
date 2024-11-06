@@ -1,61 +1,37 @@
 package com.nadzira.storyapp.ui
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
+class UserPreference(context: Context) {
 
-class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+    private val preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    suspend fun saveSession(user: UserModel) {
-        dataStore.edit { preferences ->
-            preferences[EMAIL_KEY] = user.email
-            preferences[TOKEN_KEY] = user.token
-            preferences[IS_LOGIN_KEY] = true
-        }
+    fun saveSession(value: UserModel) {
+        val editor = preferences.edit()
+        editor.putString(USER, value.user)
+        editor.putString(TOKEN, value.token)
+        editor.putBoolean(IS_LOGIN, value.isLogin)
+        editor.apply()
     }
 
-    fun getSession(): Flow<UserModel> {
-        return dataStore.data.map { preferences ->
-            val email = preferences[EMAIL_KEY] ?: ""
-            val token = preferences[TOKEN_KEY] ?: ""
-            val isLoggedIn = preferences[IS_LOGIN_KEY] == true
-
-            UserModel(
-                email = email,
-                token = token,
-                isLogin = isLoggedIn
-            )
-        }
+    fun getSession(): UserModel {
+        val model = UserModel()
+        model.user = preferences.getString(USER, "")
+        model.token = preferences.getString(TOKEN, "")
+        model.isLogin = preferences.getBoolean(IS_LOGIN, false)
+        return model
     }
 
-    suspend fun logout() {
-        dataStore.edit { preferences ->
-            preferences.clear()
-        }
+    fun logout() {
+        val editor = preferences.edit()
+        editor.clear()
+        editor.apply()
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: UserPreference? = null
-
-        private val EMAIL_KEY = stringPreferencesKey("email")
-        private val TOKEN_KEY = stringPreferencesKey("token")
-        private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
-            return INSTANCE ?: synchronized(this) {
-                val instance = UserPreference(dataStore)
-                INSTANCE = instance
-                instance
-            }
-        }
+        private const val PREFS_NAME = "user_pref"
+        private const val USER = "user"
+        private const val TOKEN = "token"
+        private const val IS_LOGIN = "is_login"  // Constant for isLogin key
     }
 }
