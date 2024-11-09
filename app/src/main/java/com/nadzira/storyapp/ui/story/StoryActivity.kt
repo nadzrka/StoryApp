@@ -19,7 +19,7 @@ import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.di.Injection
-import com.nadzira.storyapp.ui.add.NewActivity
+import com.nadzira.storyapp.ui.add.AddActivity
 import com.nadzira.storyapp.ui.logout.LogoutActivity
 
 class StoryActivity : AppCompatActivity() {
@@ -67,7 +67,7 @@ class StoryActivity : AppCompatActivity() {
         }
         val fab: View = findViewById(R.id.addButton)
         fab.setOnClickListener { view ->
-            val intent = Intent(this, NewActivity::class.java)
+            val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
         }
 
@@ -75,8 +75,6 @@ class StoryActivity : AppCompatActivity() {
             startActivity(Intent(this, LogoutActivity::class.java))
         }
     }
-
-
 
     private fun observeStories(token: String) {
         if (token.isNotEmpty()) {

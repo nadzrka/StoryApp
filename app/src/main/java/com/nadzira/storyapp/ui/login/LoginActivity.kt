@@ -37,6 +37,12 @@ class LoginActivity : AppCompatActivity() {
 
         userPreference = UserPreference(this)
 
+        loginViewModel.loginResult.observe(this) { user ->
+            binding.progressBar.visibility = View.GONE
+            if (user?.token != null) {
+               navigateToStoryActivity()
+            } else showError("User session not found.")
+        }
         setupView()
         setupAction()
         playAnimation()
@@ -56,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
+        binding.progressBar.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -67,21 +74,27 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
+            binding.progressBar.visibility = View.VISIBLE
+
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
 
             loginViewModel.login(email, password)
             loginViewModel.loginResult.observe(this) { user ->
+                binding.progressBar.visibility = View.GONE
                 if (user?.token != null) {
                     loginViewModel.saveSession(user)
-
-                    val intent = Intent(this, StoryActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
-                    startActivity(intent)
+                    navigateToStoryActivity()
                 } else showError("User session not found.")
             }
         }
+    }
+
+    private fun navigateToStoryActivity() {
+        val intent = Intent(this, StoryActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
     }
 
     private val inputWatcher = object : TextWatcher {

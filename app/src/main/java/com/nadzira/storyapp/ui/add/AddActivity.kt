@@ -13,32 +13,25 @@ import com.nadzira.storyapp.databinding.ActivityNewBinding
 import android.Manifest
 import android.content.Intent
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
-import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
-import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
-import kotlin.getValue
 
-class NewActivity : AppCompatActivity() {
+class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewBinding
     private var currentImageUri: Uri? = null
     private lateinit var userPreference: UserPreference
-    private val newViewModel by viewModels<NewViewModel> {
-        ViewModelFactory(Injection.provideRepository(this))
-    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -71,7 +64,7 @@ class NewActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(
                 ContextCompat.getDrawable(
-                    this@NewActivity,
+                    this@AddActivity,
                     R.drawable.arrow_back_24dp
                 )
             )
