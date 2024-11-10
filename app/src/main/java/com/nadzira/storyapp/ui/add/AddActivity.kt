@@ -9,7 +9,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.nadzira.storyapp.databinding.ActivityNewBinding
 import android.Manifest
 import android.content.Intent
 import android.view.View
@@ -18,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
+import com.nadzira.storyapp.databinding.ActivityAddBinding
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ import retrofit2.HttpException
 
 class AddActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNewBinding
+    private lateinit var binding: ActivityAddBinding
     private var currentImageUri: Uri? = null
     private lateinit var userPreference: UserPreference
 
@@ -49,7 +49,7 @@ class AddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNewBinding.inflate(layoutInflater)
+        binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
         userPreference = UserPreference(this)
         if (!allPermissionsGranted()) {
@@ -132,7 +132,7 @@ class AddActivity : AppCompatActivity() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Image File", "showImage: ${imageFile.path}")
-            val description = binding.description.text.toString()
+            val description = binding.edAddDescription.text.toString()
             showLoading(true)
 
             val requestBody = description.toRequestBody("text/plain".toMediaType())

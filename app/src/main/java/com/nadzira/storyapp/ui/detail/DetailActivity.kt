@@ -69,8 +69,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun populateEventDetails(story: Story) {
-        binding.storyName.text = HtmlCompat.fromHtml(story.name, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        binding.storyDescription.text = HtmlCompat.fromHtml(story.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        binding.tvDetailName.text = HtmlCompat.fromHtml(story.name, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        binding.tvDetailDescription.text = HtmlCompat.fromHtml(story.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         Glide.with(this)
             .load(story.photoUrl)
@@ -80,7 +80,7 @@ class DetailActivity : AppCompatActivity() {
                     .error(R.drawable.placeholder)
                     .fitCenter()
             )
-            .into(binding.imageView)
+            .into(binding.ivDetailPhoto)
     }
 
     override fun onSupportNavigateUp(): Boolean {

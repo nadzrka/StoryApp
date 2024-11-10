@@ -35,9 +35,9 @@ class StoryAdapter(
                 Glide.with(itemView.context)
                     .load(story.photoUrl)
                     .placeholder(R.drawable.placeholder)
-                    .into(binding.imgItemPhoto)
+                    .into(binding.ivItemPhoto)
             } else {
-                binding.imgItemPhoto.setImageResource(R.drawable.placeholder)
+                binding.ivItemPhoto.setImageResource(R.drawable.placeholder)
             }
 
             itemView.setOnClickListener {

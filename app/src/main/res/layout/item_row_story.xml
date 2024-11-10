@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_item_photo"
+            android:id="@+id/iv_item_photo"
             tools:srcCompat="@tools:sample/avatars"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,9 +33,9 @@
             android:textStyle="bold"
             android:padding="12dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="@id/img_item_photo"
-            card_view:layout_constraintStart_toStartOf="@id/img_item_photo"
-            card_view:layout_constraintTop_toBottomOf="@id/img_item_photo"
+            card_view:layout_constraintEnd_toEndOf="@id/iv_item_photo"
+            card_view:layout_constraintStart_toStartOf="@id/iv_item_photo"
+            card_view:layout_constraintTop_toBottomOf="@id/iv_item_photo"
             tools:text="@string/event_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

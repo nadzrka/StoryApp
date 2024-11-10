@@ -118,7 +118,7 @@
         app:boxStrokeWidth="1dp">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/description"
+        android:id="@+id/ed_add_description"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:hint="@string/description" />

@@ -47,14 +47,14 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.nameEditText.addTextChangedListener(inputWatcher)
-        binding.emailEditText.addTextChangedListener(inputWatcher)
-        binding.passwordEditText.addTextChangedListener(inputWatcher)
+        binding.edRegisterName.addTextChangedListener(inputWatcher)
+        binding.edRegisterEmail.addTextChangedListener(inputWatcher)
+        binding.edRegisterPassword.addTextChangedListener(inputWatcher)
 
         binding.signupButton.setOnClickListener {
-            val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+            val name = binding.edRegisterName.text.toString()
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
 
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
@@ -73,9 +73,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun updateButtonState() {
-        val name = binding.nameEditText.text
-        val email = binding.emailEditText.text
-        val password = binding.passwordEditText.text
+        val name = binding.edRegisterName.text
+        val email = binding.edRegisterEmail.text
+        val password = binding.edRegisterPassword.text
         binding.signupButton.isEnabled = !name.isNullOrEmpty() && !email.isNullOrEmpty() && !password.isNullOrEmpty()
     }
 

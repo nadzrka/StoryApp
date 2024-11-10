@@ -67,12 +67,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.emailEditText.addTextChangedListener(inputWatcher)
-        binding.passwordEditText.addTextChangedListener(inputWatcher)
+        binding.edLoginEmail.addTextChangedListener(inputWatcher)
+        binding.edLoginPassword.addTextChangedListener(inputWatcher)
 
         binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+            val email = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
 
             binding.progressBar.visibility = View.VISIBLE
 
@@ -106,8 +106,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateButtonState() {
-        val email = binding.emailEditText.text
-        val password = binding.passwordEditText.text
+        val email = binding.edLoginEmail.text
+        val password = binding.edLoginPassword.text
         binding.loginButton.isEnabled = !email.isNullOrEmpty() && !password.isNullOrEmpty()
     }
 

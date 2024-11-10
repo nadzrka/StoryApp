@@ -94,7 +94,7 @@
         tools:alpha="100">
 
         <com.nadzira.storyapp.ui.login.EmailEditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/ed_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -131,7 +131,7 @@
         tools:alpha="100">
 
         <com.nadzira.storyapp.ui.login.PasswordEditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/ed_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
