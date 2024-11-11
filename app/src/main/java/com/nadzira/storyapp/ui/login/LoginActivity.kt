@@ -2,7 +2,10 @@ package com.nadzira.storyapp.ui.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -34,15 +37,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         userPreference = UserPreference(this)
 
-        loginViewModel.loginResult.observe(this) { user ->
-            binding.progressBar.visibility = View.GONE
-            if (user?.token != null) {
-               navigateToStoryActivity()
-            } else showError("User session not found.")
-        }
         setupView()
         setupAction()
         playAnimation()
@@ -79,13 +75,23 @@ class LoginActivity : AppCompatActivity() {
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
 
-            loginViewModel.login(email, password)
-            loginViewModel.loginResult.observe(this) { user ->
-                binding.progressBar.visibility = View.GONE
-                if (user?.token != null) {
-                    loginViewModel.saveSession(user)
-                    navigateToStoryActivity()
-                } else showError("User session not found.")
+            if (isConnectedToInternet()) {
+                loginViewModel.login(email, password)
+            } else {
+                showError("No internet connection")
+            }
+
+            observeSession()
+        }
+    }
+
+    private fun observeSession() {
+        binding.progressBar.visibility = View.VISIBLE
+        loginViewModel.loginResult.observe(this) { user ->
+            binding.progressBar.visibility = View.GONE
+            if (user?.token != null) {
+                loginViewModel.saveSession(user)
+                navigateToStoryActivity()
             }
         }
     }
@@ -132,5 +138,16 @@ class LoginActivity : AppCompatActivity() {
             )
             startDelay = 100
         }.start()
+    }
+
+    private fun isConnectedToInternet(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return when {
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            else -> false
+        }
     }
 }

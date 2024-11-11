@@ -8,16 +8,16 @@ class UserPreference(context: Context) {
 
     fun saveSession(value: UserModel) {
         val editor = preferences.edit()
-        editor.putString(USER, value.user)
-        editor.putString(TOKEN, value.token)
+        editor.putString(USER, value.user ?: "")
+        editor.putString(TOKEN, value.token ?: "")
         editor.putBoolean(IS_LOGIN, value.isLogin)
         editor.apply()
     }
 
     fun getSession(): UserModel {
         val model = UserModel()
-        model.user = preferences.getString(USER, "")
-        model.token = preferences.getString(TOKEN, "")
+        model.user = preferences.getString(USER, "") ?: ""
+        model.token = preferences.getString(TOKEN, "") ?: ""
         model.isLogin = preferences.getBoolean(IS_LOGIN, false)
         return model
     }
@@ -32,6 +32,6 @@ class UserPreference(context: Context) {
         private const val PREFS_NAME = "user_pref"
         private const val USER = "user"
         private const val TOKEN = "token"
-        private const val IS_LOGIN = "is_login"  // Constant for isLogin key
+        private const val IS_LOGIN = "is_login"
     }
 }

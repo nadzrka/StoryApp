@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Story App</string>
     <string name="title_login_page">Login</string>
     <string name="message_login_page">Please fill your data</string>
@@ -34,4 +34,5 @@
     <string name="empty_text">empty</string>
     <string name="fill_name">Enter your name</string>
     <string name="fill_password">Enter your password</string>
+    <string name="splashscreen" tools:ignore="MissingTranslation">splashscreen</string>
 </resources>
