@@ -22,16 +22,11 @@
     <string name="detail_story">Detail</string>
     <string name="new_story">Cerita baru</string>
     <string name="description">Deskripsi</string>
-    <string name="Account">Akun</string>
     <string name="logout">Logout</string>
     <string name="title_logout_page">Logout</string>
     <string name="message_logout_page">Apakah kamu yakin akan keluar?</string>
     <string name="fill_email">Masukkan email Anda</string>
     <string name="email_error">Masukkan email valid</string>
-    <string name="appwidget_text">Story App</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">Deskripsi widget</string>
-    <string name="empty_text">kosong</string>
     <string name="fill_name">Masukkan nama Anda</string>
     <string name="fill_password">Masukkan password Anda</string>
     <string name="success">Berhasil</string>

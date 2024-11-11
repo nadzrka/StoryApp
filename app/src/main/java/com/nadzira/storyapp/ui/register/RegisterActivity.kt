@@ -18,7 +18,6 @@ import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityRegisterBinding
 import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.Result
-import com.nadzira.storyapp.ui.UserModel
 import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlin.getValue
 

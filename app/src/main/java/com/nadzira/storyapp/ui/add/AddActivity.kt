@@ -14,23 +14,12 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.net.toUri
-import androidx.lifecycle.lifecycleScope
-import com.google.gson.Gson
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityAddBinding
 import com.nadzira.storyapp.di.Injection
-import com.nadzira.storyapp.remote.response.FileUploadResponse
-import com.nadzira.storyapp.remote.retrofit.ApiConfig
 import com.nadzira.storyapp.ui.Result
 import com.nadzira.storyapp.ui.ViewModelFactory
-import com.nadzira.storyapp.ui.login.LoginViewModel
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.HttpException
 import kotlin.getValue
 
 class AddActivity : AppCompatActivity() {

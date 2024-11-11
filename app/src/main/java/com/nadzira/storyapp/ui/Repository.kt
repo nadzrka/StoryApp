@@ -25,12 +25,6 @@ class Repository private constructor(
     private val _detailStory = MutableLiveData<Story>()
     val story: LiveData<Story> get() = _detailStory
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
-
-    private val _listStory = MutableLiveData<List<ListStoryItem>>()
-    val listStory: LiveData<List<ListStoryItem>> get() = _listStory
-
     fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -90,9 +84,7 @@ class Repository private constructor(
         emit(Result.Loading)
         try {
             val response = apiService.getDetailStory(storyId)
-            response.story.let {
-                emit(Result.Success(it))
-            }
+            emit(Result.Success(response.story))
         } catch (e: IOException) {
             emit(Result.Error("Network error: ${e.message}"))
         } catch (e: Exception) {
