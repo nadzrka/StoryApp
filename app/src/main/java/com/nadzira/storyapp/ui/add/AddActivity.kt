@@ -12,27 +12,35 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityAddBinding
+import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.retrofit.ApiConfig
+import com.nadzira.storyapp.ui.Result
+import com.nadzira.storyapp.ui.ViewModelFactory
+import com.nadzira.storyapp.ui.login.LoginViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import kotlin.getValue
 
 class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddBinding
     private var currentImageUri: Uri? = null
     private lateinit var userPreference: UserPreference
-
+    private val addViewModel by viewModels<AddViewModel> {
+        ViewModelFactory(Injection.provideRepository(this))
+    }
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -133,34 +141,25 @@ class AddActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Image File", "showImage: ${imageFile.path}")
             val description = binding.edAddDescription.text.toString()
-            showLoading(true)
 
-            val requestBody = description.toRequestBody("text/plain".toMediaType())
-            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
-                imageFile.name,
-                requestImageFile
-            )
+            addViewModel.uploadImage(imageFile, description).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoading(true)
+                        }
 
-            lifecycleScope.launch {
-                try {
-                    val token = userPreference.getSession().token
-                    if (token != null) {
-                        val apiService = ApiConfig.getApiService(token)
-                        val successResponse = apiService.addStory(multipartBody, requestBody)
-                        showToast(successResponse.message.toString())
-                        finish()
-                        showLoading(false)
-                    } else {
-                        showToast("User not logged in")
-                        showLoading(false)
+                        is Result.Success -> {
+                            showToast(result.data.message!!)
+                            showLoading(false)
+                            finish()
+                        }
+
+                        is Result.Error -> {
+                            showToast(result.error)
+                            showLoading(false)
+                        }
                     }
-                } catch (e: HttpException) {
-                    val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, FileUploadResponse::class.java)
-                    showToast(errorResponse.message.toString())
-                    showLoading(false)
                 }
             }
         } ?: showToast(getString(R.string.empty_image_warning))

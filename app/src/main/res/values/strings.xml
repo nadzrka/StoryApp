@@ -35,4 +35,6 @@
     <string name="fill_name">Enter your name</string>
     <string name="fill_password">Enter your password</string>
     <string name="splashscreen" tools:ignore="MissingTranslation">splashscreen</string>
+    <string name="success">Success</string>
+    <string name="account_created_message">Account with %1$s has been created. Please login to start.</string>
 </resources>

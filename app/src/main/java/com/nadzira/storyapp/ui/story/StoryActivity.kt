@@ -58,10 +58,9 @@ class StoryActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupRecyclerView() {
         storyAdapter = StoryAdapter { navigateToDetailEvent(it) }
-        binding?.rvEvent?.apply {
+        binding?.rvStory?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = storyAdapter
         }
@@ -104,7 +103,7 @@ class StoryActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding?.tvNoEvent?.visibility = View.GONE
+        binding?.tvNoItem?.visibility = View.GONE
     }
 
     private fun showError(message: String) {
@@ -113,11 +112,11 @@ class StoryActivity : AppCompatActivity() {
 
     private fun updateEventList(stories: List<ListStoryItem>) {
         if (stories.isEmpty()) {
-            binding?.tvNoEvent?.visibility = View.VISIBLE
-            binding?.rvEvent?.visibility = View.GONE
+            binding?.tvNoItem?.visibility = View.VISIBLE
+            binding?.rvStory?.visibility = View.GONE
         } else {
-            binding?.tvNoEvent?.visibility = View.GONE
-            binding?.rvEvent?.visibility = View.VISIBLE
+            binding?.tvNoItem?.visibility = View.GONE
+            binding?.rvStory?.visibility = View.VISIBLE
             storyAdapter.submitList(stories)
         }
     }

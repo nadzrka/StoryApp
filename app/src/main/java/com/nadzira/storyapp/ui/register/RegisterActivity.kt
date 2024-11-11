@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityRegisterBinding
 import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.ViewModelFactory
@@ -81,8 +82,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showConfirmationDialog(email: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Yeah!")
-            setMessage("Account with $email has been created. Please login to start learning coding.")
+            val message = getString(R.string.account_created_message, email)
+            setTitle(getString(R.string.success))
+            setMessage(message)
             setPositiveButton("Continue") { _, _ ->
                 finish()
             }

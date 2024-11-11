@@ -17,7 +17,7 @@
         app:titleTextColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/tv_no_event"
+        android:id="@+id/tv_no_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_story_found"
@@ -45,7 +45,7 @@
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_event"
+        android:id="@+id/rv_story"
         android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

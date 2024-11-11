@@ -3,6 +3,7 @@ package com.nadzira.storyapp.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nadzira.storyapp.MainViewModel
+import com.nadzira.storyapp.ui.add.AddViewModel
 import com.nadzira.storyapp.ui.detail.DetailViewModel
 import com.nadzira.storyapp.ui.login.LoginViewModel
 import com.nadzira.storyapp.ui.logout.LogoutViewModel
@@ -32,6 +33,9 @@ class ViewModelFactory(private val repository: Repository)
             }
             modelClass.isAssignableFrom(LogoutViewModel::class.java) -> {
                 LogoutViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AddViewModel::class.java) -> {
+                AddViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
