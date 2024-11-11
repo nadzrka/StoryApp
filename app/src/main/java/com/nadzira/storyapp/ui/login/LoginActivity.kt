@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
             if (isConnectedToInternet()) {
                 loginViewModel.login(email, password)
             } else {
-                showError("No internet connection")
+                Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
 
             observeSession()
@@ -157,10 +157,5 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showError(message: String) {
-        binding.progressBar.visibility = View.GONE
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
