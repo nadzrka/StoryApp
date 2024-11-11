@@ -40,12 +40,18 @@ class Repository private constructor(
                 apiService.register(name, email, password)
             }
             emit(Result.Success("Registration successful"))
+        } catch (e: HttpException) {
+            val errorMessage = e.response()?.errorBody()?.string()?.let {
+                Gson().fromJson(it, FileUploadResponse::class.java).message
+            } ?: "Registration failed"
+            emit(Result.Error(errorMessage))
         } catch (e: IOException) {
             emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
             emit(Result.Error("Registration failed: ${e.message ?: "Unknown error"}"))
         }
     }
+
 
     fun login(user: String, password: String): LiveData<Result<UserModel>> = liveData {
         emit(Result.Loading)
@@ -57,6 +63,11 @@ class Repository private constructor(
                 UserModel(user = user, token = it.token.orEmpty(), isLogin = true)
             } ?: throw Exception("Invalid login response")
             emit(Result.Success(userModel))
+        } catch (e: HttpException) {
+            val errorMessage = e.response()?.errorBody()?.string()?.let {
+                Gson().fromJson(it, FileUploadResponse::class.java).message
+            } ?: "Login failed"
+            emit(Result.Error(errorMessage))
         } catch (e: IOException) {
             emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
