@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleResult(result: Result<UserModel>?) {
+    private fun handleResult(result: Result<UserModel>) {
         when (result) {
             is Result.Loading -> showLoading(true)
             is Result.Success -> {
@@ -102,15 +102,9 @@ class LoginActivity : AppCompatActivity() {
             }
             is Result.Error -> {
                 showLoading(false)
-                showError("Email or username is invalid")
+                Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
             }
-
-            null -> showError("Login failed")
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun navigateToStoryActivity() {
@@ -166,5 +160,9 @@ class LoginActivity : AppCompatActivity() {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
             else -> false
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

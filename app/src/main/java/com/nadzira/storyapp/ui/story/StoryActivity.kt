@@ -96,7 +96,7 @@ class StoryActivity : AppCompatActivity() {
             }
             is Result.Error -> {
                 showLoading(false)
-                showError("Failed to load stories")
+                Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
             }
         }
     }

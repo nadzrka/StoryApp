@@ -3,6 +3,7 @@ package com.nadzira.storyapp.ui.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -62,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
                 }
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Log.d("StoryActivity", "API result: $result")
+                    Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                 }
             }
         }

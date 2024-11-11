@@ -10,12 +10,15 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityRegisterBinding
 import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.ui.Result
+import com.nadzira.storyapp.ui.UserModel
 import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlin.getValue
 
@@ -61,8 +64,23 @@ class RegisterActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
 
             registerViewModel.register(name, email, password)
-            showConfirmationDialog(email)
+            registerViewModel.registrationResult.observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> showLoading(true)
+                    is Result.Success -> {
+                        showConfirmationDialog(email)
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private val inputWatcher = object : TextWatcher {
