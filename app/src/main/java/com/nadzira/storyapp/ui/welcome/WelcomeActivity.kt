@@ -9,20 +9,49 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.nadzira.storyapp.databinding.ActivityWelcomeBinding
+import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.login.LoginActivity
 import com.nadzira.storyapp.ui.register.RegisterActivity
+import com.nadzira.storyapp.ui.story.StoryActivity
+import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding
+    private lateinit var userPreference: UserPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userPreference = UserPreference(this)
+
         setupView()
-        setupAction()
         playAnimation()
+        observeUserSession()
+        setupAction()
+
+    }
+
+    private fun observeUserSession() {
+        lifecycleScope.launch {
+            val session = userPreference.getSession()
+            val token = session.token
+            if (token != "") {
+                navigateToStoryActivity()
+            } else {
+                setupAction()
+            }
+        }
+    }
+
+    private fun navigateToStoryActivity() {
+        val intent = Intent(this, StoryActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
     }
 
     private fun setupView() {

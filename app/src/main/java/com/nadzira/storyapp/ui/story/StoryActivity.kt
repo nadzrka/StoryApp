@@ -83,7 +83,6 @@ class StoryActivity : AppCompatActivity() {
             }
         } else {
             showError("User is not logged in.")
-            finish()
         }
     }
 

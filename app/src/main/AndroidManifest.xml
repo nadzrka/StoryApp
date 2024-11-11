@@ -22,15 +22,6 @@
         android:theme="@style/Theme.StoryApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.SplashScreen"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.add.CameraActivity"
             android:exported="false" />
         <activity
@@ -53,7 +44,11 @@
             android:exported="false" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!-- Trigger Google Play services to install the backported photo picker module. -->
         <!--suppress AndroidDomInspection -->
