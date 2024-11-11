@@ -34,20 +34,20 @@ class Repository private constructor(
     }
 
     fun register(name: String, email: String, password: String): LiveData<Result<String>> = liveData {
-      emit(Result.Loading)
+        emit(Result.Loading)
         try {
             withContext(Dispatchers.IO) {
                 apiService.register(name, email, password)
             }
             emit(Result.Success("Registration successful"))
         } catch (e: IOException) {
-            emit(Result.Error("Network error: : ${e.message}"))
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
-           emit(Result.Error("Registration failed: ${e.message}"))
+            emit(Result.Error("Registration failed: ${e.message ?: "Unknown error"}"))
         }
     }
 
-    fun login(user: String, password: String):  LiveData<Result<UserModel>> = liveData {
+    fun login(user: String, password: String): LiveData<Result<UserModel>> = liveData {
         emit(Result.Loading)
         try {
             val response = withContext(Dispatchers.IO) {
@@ -58,9 +58,9 @@ class Repository private constructor(
             } ?: throw Exception("Invalid login response")
             emit(Result.Success(userModel))
         } catch (e: IOException) {
-            emit(Result.Error("Network error: : ${e.message}"))
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
-            emit(Result.Error("Login failed: ${e.message}"))
+            emit(Result.Error("Login failed: ${e.message ?: "Unknown error"}"))
         }
     }
 
@@ -74,9 +74,9 @@ class Repository private constructor(
                 emit(Result.Success(response.listStory))
             }
         } catch (e: IOException) {
-            emit(Result.Error("Network error: ${e.message}"))
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
-            emit(Result.Error("Error: ${e.message}"))
+            emit(Result.Error("Error: ${e.message ?: "Unknown error"}"))
         }
     }
 
@@ -86,13 +86,13 @@ class Repository private constructor(
             val response = apiService.getDetailStory(storyId)
             emit(Result.Success(response.story))
         } catch (e: IOException) {
-            emit(Result.Error("Network error: ${e.message}"))
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
-            emit(Result.Error("Error: ${e.message}"))
+            emit(Result.Error("Error: ${e.message ?: "Unknown error"}"))
         }
     }
 
-    fun uploadImage(imageFile: File, description: String) = liveData {
+    fun uploadImage(imageFile: File, description: String) = liveData(Dispatchers.IO) {
         emit(Result.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
@@ -106,10 +106,15 @@ class Repository private constructor(
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, FileUploadResponse::class.java)
-            emit(Result.Error(errorResponse.message!!))
+            val errorResponse = errorBody?.let {
+                Gson().fromJson(it, FileUploadResponse::class.java)
+            }
+            emit(Result.Error(errorResponse?.message ?: "Failed to upload image"))
+        } catch (e: IOException) {
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
+        } catch (e: Exception) {
+            emit(Result.Error("Error: ${e.message ?: "Unknown error"}"))
         }
-
     }
 
     companion object {

@@ -53,7 +53,7 @@ class StoryActivity : AppCompatActivity() {
             if (token != null) {
                 observeStories(token)
             } else {
-                showError("User session not found.")
+                showError(getString(R.string.user_session_not_found))
             }
         }
     }
@@ -82,7 +82,7 @@ class StoryActivity : AppCompatActivity() {
                 handleResult(result)
             }
         } else {
-            showError("User is not logged in.")
+            showError(getString(R.string.user_is_not_logged_in))
         }
     }
 
@@ -90,6 +90,9 @@ class StoryActivity : AppCompatActivity() {
         when (result) {
             is Result.Loading -> showLoading(true)
             is Result.Success -> {
+                if (result.data.isEmpty()) {
+                    binding?.tvNoItem?.visibility = View.VISIBLE
+                }
                 updateEventList(result.data)
                 showLoading(false)
             }

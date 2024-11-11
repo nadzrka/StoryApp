@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Story App</string>
-    <string name="title_login_page">Login</string>
+    <string name="title_login_page">Masuk</string>
     <string name="message_login_page">Isikan Datamu</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="login">Masuk</string>
+    <string name="register">Daftar</string>
     <string name="name">Nama</string>
-    <string name="title_register_page">Register</string>
+    <string name="title_register_page">Daftar</string>
     <string name="title_welcome_page">Selamat Datang</string>
     <string name="message_welcome_page">Selamat Datang di Story App!</string>
     <string name="no_story_found">Cerita tidak ditemukan</string>
@@ -22,8 +22,8 @@
     <string name="detail_story">Detail</string>
     <string name="new_story">Cerita baru</string>
     <string name="description">Deskripsi</string>
-    <string name="logout">Logout</string>
-    <string name="title_logout_page">Logout</string>
+    <string name="logout">Keluar</string>
+    <string name="title_logout_page">Keluar</string>
     <string name="message_logout_page">Apakah kamu yakin akan keluar?</string>
     <string name="fill_email">Masukkan email Anda</string>
     <string name="email_error">Masukkan email valid</string>
@@ -32,4 +32,11 @@
     <string name="success">Berhasil</string>
     <string name="password_setting">Password tidak boleh kurang dari 8 karakter</string>
     <string name="account_created_message">Akun dengan nama %1$s berhasil dibuat. Silakan login untuk memulai.</string>
+    <string name="user_is_not_logged_in">User belum masuk.</string>
+    <string name="user_session_not_found">User tidak ditemukan.</string>
+    <string name="permission_request_granted">Permintaan izin diberikan</string>
+    <string name="permission_request_denied">Permintaan izin ditolak</string>
+    <string name="no_internet_connection">Tidak ada koneksi internet</string>
+    <string name="failed_load_camera">Gagal memunculkan kamera.</string>
+    <string name="failed_take_photo">Gagal mengambil gambar.</string>
 </resources>

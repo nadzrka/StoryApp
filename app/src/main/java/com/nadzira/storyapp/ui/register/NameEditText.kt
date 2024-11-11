@@ -29,11 +29,6 @@ class NameEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                if (s.toString().length < 8) {
-                    setError("Nama tidak boleh kurang dari 8 karakter", null)
-                } else {
-                    error = null
-                }
             }
 
             override fun afterTextChanged(s: Editable) {

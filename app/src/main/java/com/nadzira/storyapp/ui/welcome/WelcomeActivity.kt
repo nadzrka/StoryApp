@@ -28,23 +28,24 @@ class WelcomeActivity : AppCompatActivity() {
 
         userPreference = UserPreference(this)
 
+        lifecycleScope.launch {
+            observeUserSession()
+        }
         setupView()
         playAnimation()
-        observeUserSession()
         setupAction()
 
     }
 
     private fun observeUserSession() {
-        lifecycleScope.launch {
             val session = userPreference.getSession()
             val token = session.token
             if (token != "") {
                 navigateToStoryActivity()
+                finish()
             } else {
                 setupAction()
             }
-        }
     }
 
     private fun navigateToStoryActivity() {

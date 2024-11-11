@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityLoginBinding
 import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.Result
@@ -72,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
             if (isConnectedToInternet()) {
                 loginViewModel.login(email, password)
             } else {
-                Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
             }
 
             observeSession()
