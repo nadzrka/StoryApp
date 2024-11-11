@@ -35,5 +35,6 @@
     <string name="fill_name">Masukkan nama Anda</string>
     <string name="fill_password">Masukkan password Anda</string>
     <string name="success">Berhasil</string>
+    <string name="password_setting">Password tidak boleh kurang dari 8 karakter</string>
     <string name="account_created_message">Akun dengan nama %1$s berhasil dibuat. Silakan login untuk memulai.</string>
 </resources>

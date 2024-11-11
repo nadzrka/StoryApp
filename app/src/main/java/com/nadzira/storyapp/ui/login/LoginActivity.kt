@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-
 import com.nadzira.storyapp.databinding.ActivityLoginBinding
 import com.nadzira.storyapp.di.Injection
 import com.nadzira.storyapp.ui.Result
@@ -29,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
     private val loginViewModel by viewModels<LoginViewModel> {
         ViewModelFactory(Injection.provideRepository(this))
     }
-
     private lateinit var userPreference: UserPreference
     private lateinit var binding: ActivityLoginBinding
 
@@ -56,11 +54,6 @@ class LoginActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
-    }
-
-    private fun showError(message: String) {
-        binding.progressBar.visibility = View.GONE
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupAction() {
@@ -164,5 +157,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showError(message: String) {
+        binding.progressBar.visibility = View.GONE
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

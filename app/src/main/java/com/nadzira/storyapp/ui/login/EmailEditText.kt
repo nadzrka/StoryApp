@@ -29,7 +29,8 @@ class EmailEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
-                if (!s.contains("@") || s.length < 8) {
+                val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+                if (!s.matches(emailPattern.toRegex())) {
                     setError(context.getString(R.string.email_error), null)
                 } else {
                     error = null
