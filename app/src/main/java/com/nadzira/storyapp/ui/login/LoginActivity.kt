@@ -2,7 +2,6 @@ package com.nadzira.storyapp.ui.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -20,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.nadzira.storyapp.databinding.ActivityLoginBinding
 import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.ui.Result
+import com.nadzira.storyapp.ui.UserModel
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.ViewModelFactory
 import com.nadzira.storyapp.ui.story.StoryActivity
@@ -86,14 +87,30 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeSession() {
-        binding.progressBar.visibility = View.VISIBLE
-        loginViewModel.loginResult.observe(this) { user ->
-            binding.progressBar.visibility = View.GONE
-            if (user?.token != null) {
-                loginViewModel.saveSession(user)
+        loginViewModel.loginResult.observe(this) { result ->
+            handleResult(result)
+        }
+    }
+
+    private fun handleResult(result: Result<UserModel>?) {
+        when (result) {
+            is Result.Loading -> showLoading(true)
+            is Result.Success -> {
+                showLoading(false)
+                loginViewModel.saveSession(result.data)
                 navigateToStoryActivity()
             }
+            is Result.Error -> {
+                showLoading(false)
+                showError("Email or username is invalid")
+            }
+
+            null -> showError("Login failed")
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun navigateToStoryActivity() {

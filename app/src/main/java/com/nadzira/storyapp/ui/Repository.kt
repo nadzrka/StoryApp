@@ -1,6 +1,5 @@
 package com.nadzira.storyapp.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -40,48 +39,35 @@ class Repository private constructor(
         userPreference.logout()
     }
 
-    suspend fun register(name: String, email: String, password: String) {
-        showLoading(true)
+    fun register(name: String, email: String, password: String): LiveData<Result<String>> = liveData {
+      emit(Result.Loading)
         try {
             withContext(Dispatchers.IO) {
                 apiService.register(name, email, password)
-            }.also {
-                Log.d("Repository", "Registration successful")
             }
+            emit(Result.Success("Registration successful"))
         } catch (e: IOException) {
-            Log.e("Repository", "Network error during registration: ${e.message}")
-            throw e
+            emit(Result.Error("Network error: : ${e.message}"))
         } catch (e: Exception) {
-            Log.e("Repository", "Registration failed: ${e.message}")
-            throw e
-        } finally {
-            showLoading(false)
+           emit(Result.Error("Registration failed: ${e.message}"))
         }
     }
 
-    suspend fun login(user: String, password: String): UserModel {
-        showLoading(true)
-        return try {
+    fun login(user: String, password: String):  LiveData<Result<UserModel>> = liveData {
+        emit(Result.Loading)
+        try {
             val response = withContext(Dispatchers.IO) {
                 apiService.login(user, password)
             }
-            response.loginResult?.let {
-                Log.d("Repository", "Login successful")
+            val userModel = response.loginResult?.let {
                 UserModel(user = user, token = it.token.orEmpty(), isLogin = true)
             } ?: throw Exception("Invalid login response")
+            emit(Result.Success(userModel))
         } catch (e: IOException) {
-            Log.e("Repository", "Network error during login: ${e.message}")
-            throw e
+            emit(Result.Error("Network error: : ${e.message}"))
         } catch (e: Exception) {
-            Log.e("Repository", "Login failed: ${e.message}")
-            throw e
-        } finally {
-            showLoading(false)
+            emit(Result.Error("Login failed: ${e.message}"))
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        _isLoading.postValue(isLoading)
     }
 
     fun getStories(): LiveData<Result<List<ListStoryItem>>> = liveData(Dispatchers.IO) {
