@@ -22,6 +22,8 @@ import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlin.getValue
 
 class RegisterActivity : AppCompatActivity() {
+
+    private var confirmationDialog: AlertDialog? = null
     private lateinit var binding: ActivityRegisterBinding
     private val registerViewModel by viewModels<RegisterViewModel> {
         ViewModelFactory(Injection.provideRepository(this))
@@ -67,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Loading -> showLoading(true)
                     is Result.Success -> {
-                        showConfirmationDialog(email)
+                            showConfirmationDialog(email)
                     }
                     is Result.Error -> {
                         showLoading(false)
@@ -97,17 +99,19 @@ class RegisterActivity : AppCompatActivity() {
         binding.signupButton.isEnabled = !name.isNullOrEmpty() && !email.isNullOrEmpty() && !password.isNullOrEmpty()
     }
 
+
     private fun showConfirmationDialog(email: String) {
-        AlertDialog.Builder(this).apply {
-            val message = getString(R.string.account_created_message, email)
+        val message = getString(R.string.account_created_message, email)
+        confirmationDialog = AlertDialog.Builder(this).apply {
             setTitle(getString(R.string.success))
             setMessage(message)
             setPositiveButton("Continue") { _, _ ->
+                confirmationDialog?.dismiss()
                 finish()
             }
-            create()
-            show()
-        }
+        }.create()
+
+        confirmationDialog?.show()
     }
 
     private fun playAnimation() {
