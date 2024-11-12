@@ -24,6 +24,6 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
             repository.login(email, password).observeForever { result ->
                     _loginResult.value = result!!
             }
-        }
+    }
 
 }

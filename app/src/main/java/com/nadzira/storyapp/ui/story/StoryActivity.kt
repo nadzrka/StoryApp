@@ -39,7 +39,7 @@ class StoryActivity : AppCompatActivity() {
         userPreference = UserPreference(this)
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        toolbar.title = getString(R.string.story)
         toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
 
         setupRecyclerView()
