@@ -1,3 +1,14 @@
 <resources>
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@color/black</item>
+        <item name="subtitleTextColor">@color/black</item>
+        <item name="actionMenuTextColor">@color/black</item>
+        <item name="android:theme">@style/ToolbarMenuStyle</item>
+    </style>
+
+    <style name="ToolbarMenuStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="actionMenuTextColor">@color/black</item>
+    </style>
 
 </resources>

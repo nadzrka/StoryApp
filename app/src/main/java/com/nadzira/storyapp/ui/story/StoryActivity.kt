@@ -3,11 +3,12 @@ package com.nadzira.storyapp.ui.story
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nadzira.storyapp.databinding.ActivityStoryBinding
@@ -37,10 +38,8 @@ class StoryActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
         userPreference = UserPreference(this)
-
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-        toolbar.title = getString(R.string.story)
-        toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+        setSupportActionBar(binding?.toolbar)
+        supportActionBar?.title = getString(R.string.story)
 
         setupRecyclerView()
         observeUserSession()
@@ -69,9 +68,20 @@ class StoryActivity : AppCompatActivity() {
             val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        binding?.imageButton?.setOnClickListener {
-            startActivity(Intent(this, LogoutActivity::class.java))
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.setting_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, LogoutActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

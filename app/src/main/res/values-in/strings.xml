@@ -39,4 +39,5 @@
     <string name="no_internet_connection">Tidak ada koneksi internet</string>
     <string name="failed_load_camera">Gagal memunculkan kamera.</string>
     <string name="failed_take_photo">Gagal mengambil gambar.</string>
+    <string name="story">StoryApp</string>
 </resources>
