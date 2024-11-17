@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nadzira.storyapp.ui.maps.MapsActivity
 import com.nadzira.storyapp.databinding.ActivityStoryBinding
 import com.nadzira.storyapp.remote.response.ListStoryItem
 import com.nadzira.storyapp.ui.Result
@@ -40,6 +41,10 @@ class StoryActivity : AppCompatActivity() {
         userPreference = UserPreference(this)
         setSupportActionBar(binding?.toolbar)
         supportActionBar?.title = getString(R.string.story)
+        val mapButton = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.map_button)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java))
+        }
 
         setupRecyclerView()
         observeUserSession()

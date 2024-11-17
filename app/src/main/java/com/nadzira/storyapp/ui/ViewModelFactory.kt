@@ -6,6 +6,7 @@ import com.nadzira.storyapp.ui.add.AddViewModel
 import com.nadzira.storyapp.ui.detail.DetailViewModel
 import com.nadzira.storyapp.ui.login.LoginViewModel
 import com.nadzira.storyapp.ui.logout.LogoutViewModel
+import com.nadzira.storyapp.ui.maps.MapsViewModel
 import com.nadzira.storyapp.ui.register.RegisterViewModel
 import com.nadzira.storyapp.ui.story.StoryViewModel
 
@@ -32,6 +33,9 @@ class ViewModelFactory(private val repository: Repository)
             }
             modelClass.isAssignableFrom(AddViewModel::class.java) -> {
                 AddViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

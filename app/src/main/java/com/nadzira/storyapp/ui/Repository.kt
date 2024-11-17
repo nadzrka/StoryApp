@@ -91,6 +91,22 @@ class Repository private constructor(
         }
     }
 
+    fun getStoriesWithLoc(): LiveData<Result<List<ListStoryItem>>> = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStoriesWithLocation()
+            if (response.error || response.listStory.isEmpty()) {
+                emit(Result.Error("No stories found or error occurred"))
+            } else {
+                emit(Result.Success(response.listStory))
+            }
+        } catch (e: IOException) {
+            emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
+        } catch (e: Exception) {
+            emit(Result.Error("Error: ${e.message ?: "Unknown error"}"))
+        }
+    }
+
     fun getDetailStory(storyId: String): LiveData<Result<Story>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
         try {
