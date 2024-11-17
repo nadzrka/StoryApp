@@ -3,10 +3,19 @@ package com.nadzira.storyapp.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.google.gson.Gson
+import com.nadzira.storyapp.data.StoryRemoteMediator
+import com.nadzira.storyapp.database.StoryDatabase
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.response.ListStoryItem
 import com.nadzira.storyapp.remote.response.Story
+import com.nadzira.storyapp.remote.response.StoryEntity
 import com.nadzira.storyapp.remote.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,6 +28,7 @@ import java.io.File
 import java.io.IOException
 
 class Repository private constructor(
+    private val storyDatabase: StoryDatabase,
     private val userPreference: UserPreference,
     private val apiService: ApiService
 ) {
@@ -75,15 +85,23 @@ class Repository private constructor(
         }
     }
 
-    fun getStories(): LiveData<Result<List<ListStoryItem>>> = liveData(Dispatchers.IO) {
+    fun getStories(): LiveData<Result<PagingData<StoryEntity>>> = liveData(Dispatchers.IO) {
         emit(Result.Loading)
         try {
-            val response = apiService.getStories()
-            if (response.error || response.listStory.isEmpty()) {
-                emit(Result.Error("No stories found or error occurred"))
-            } else {
-                emit(Result.Success(response.listStory))
-            }
+            @OptIn(ExperimentalPagingApi::class)
+            val pager = Pager(
+                config = PagingConfig(
+                    pageSize = 5
+                ),
+                remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+                pagingSourceFactory = {
+//                QuotePagingSource(apiService)
+                    storyDatabase.storyDao().getAllStory()
+                }
+            )
+            emitSource(pager.liveData.map { pagingData ->
+                Result.Success(pagingData)
+            })
         } catch (e: IOException) {
             emit(Result.Error("Network error: ${e.message ?: "Unable to connect"}"))
         } catch (e: Exception) {
@@ -146,8 +164,9 @@ class Repository private constructor(
 
     companion object {
         fun getInstance(
+            storyDatabase: StoryDatabase,
             userPreference: UserPreference,
             apiService: ApiService
-        ): Repository = Repository(userPreference, apiService)
+        ): Repository = Repository(storyDatabase, userPreference, apiService)
     }
 }

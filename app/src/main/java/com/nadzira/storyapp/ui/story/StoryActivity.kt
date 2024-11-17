@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nadzira.storyapp.ui.maps.MapsActivity
 import com.nadzira.storyapp.databinding.ActivityStoryBinding
-import com.nadzira.storyapp.remote.response.ListStoryItem
 import com.nadzira.storyapp.ui.Result
 import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.ViewModelFactory
@@ -21,6 +21,7 @@ import com.nadzira.storyapp.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.di.Injection
+import com.nadzira.storyapp.remote.response.StoryEntity
 import com.nadzira.storyapp.ui.add.AddActivity
 import com.nadzira.storyapp.ui.logout.LogoutActivity
 
@@ -101,20 +102,19 @@ class StoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleResult(result: Result<List<ListStoryItem>>) {
+    private fun handleResult(result: Result<PagingData<StoryEntity>>?) {
         when (result) {
             is Result.Loading -> showLoading(true)
             is Result.Success -> {
-                if (result.data.isEmpty()) {
-                    binding?.tvNoItem?.visibility = View.VISIBLE
-                }
-                updateEventList(result.data)
+                storyAdapter.submitData(lifecycle, result.data)
                 showLoading(false)
             }
             is Result.Error -> {
                 showLoading(false)
                 Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
             }
+
+            null -> TODO()
         }
     }
 
@@ -127,18 +127,7 @@ class StoryActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateEventList(stories: List<ListStoryItem>) {
-        if (stories.isEmpty()) {
-            binding?.tvNoItem?.visibility = View.VISIBLE
-            binding?.rvStory?.visibility = View.GONE
-        } else {
-            binding?.tvNoItem?.visibility = View.GONE
-            binding?.rvStory?.visibility = View.VISIBLE
-            storyAdapter.submitList(stories)
-        }
-    }
-
-    private fun navigateToDetailEvent(story: ListStoryItem) {
+    private fun navigateToDetailEvent(story: StoryEntity) {
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra(DetailActivity.EXTRA_STORY_ID, story.id.toString())
         }
@@ -149,7 +138,7 @@ class StoryActivity : AppCompatActivity() {
         super.onResume()
         storyViewModel.getStories().observe(this) { result ->
             if (result is Result.Success) {
-                storyAdapter.submitList(result.data)
+                storyAdapter.submitData(lifecycle, result.data)
             }
         }
     }
