@@ -1,8 +1,8 @@
 [versions]
 coreTesting = "2.2.0"
 kotlinxCoroutinesTest = "1.7.3"
-mockitoCore = "4.4.0"
-mockitoInline = "4.4.0"
+mockitoCore = "5.6.0"
+mockitoInline = "5.2.0"
 roomPaging = "2.6.1"
 pagingRuntimeKtx = "3.3.4"
 cameraxVersion = "1.4.0"
