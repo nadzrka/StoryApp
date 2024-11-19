@@ -42,4 +42,5 @@
     <string name="story">StoryApp</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="retry">Retry</string>
+    <string name="map_id">eebddfdb522aca08</string>
 </resources>

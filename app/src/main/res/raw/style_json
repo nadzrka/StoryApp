@@ -1,0 +1,53 @@
+[
+  {
+    "featureType": "landscape",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#f0dbdb"
+      },
+      {
+        "visibility": "simplified"
+      },
+      {
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#68abac"
+      }
+    ]
+  },
+   {
+      "featureType": "water",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#739eb0"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#68abac"
+      }
+    ]
+  }
+]

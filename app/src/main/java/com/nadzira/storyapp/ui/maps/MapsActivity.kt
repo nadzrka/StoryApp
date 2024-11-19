@@ -1,5 +1,7 @@
 package com.nadzira.storyapp.ui.maps
 
+import android.content.ContentValues.TAG
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,12 +9,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMapOptions
+import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.nadzira.storyapp.R
 import com.nadzira.storyapp.databinding.ActivityMapsBinding
@@ -23,6 +27,7 @@ import com.nadzira.storyapp.ui.UserPreference
 import com.nadzira.storyapp.ui.ViewModelFactory
 import kotlinx.coroutines.launch
 import kotlin.getValue
+import kotlin.text.replace
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mapsViewModel by viewModels<MapsViewModel> {
@@ -37,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         userPreference = UserPreference(this)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         observeUserSession()
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -53,6 +59,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
+        try {
+            val success = googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this,
+                    R.raw.style_json
+                )
+            )
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
+        }
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
