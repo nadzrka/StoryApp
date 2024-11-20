@@ -95,7 +95,6 @@ class Repository private constructor(
                 ),
                 remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
                 pagingSourceFactory = {
-//                QuotePagingSource(apiService)
                     storyDatabase.storyDao().getAllStory()
                 }
             )
@@ -137,7 +136,7 @@ class Repository private constructor(
         }
     }
 
-    fun uploadImage(imageFile: File, description: String) = liveData(Dispatchers.IO) {
+    fun uploadImage(imageFile: File, description: String, lat: Float?, lon: Float?) = liveData(Dispatchers.IO) {
         emit(Result.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
@@ -146,8 +145,11 @@ class Repository private constructor(
             imageFile.name,
             requestImageFile
         )
+        val latRequestBody = lat?.toString()?.toRequestBody("text/plain".toMediaType())
+        val lonRequestBody = lon?.toString()?.toRequestBody("text/plain".toMediaType())
         try {
-            val successResponse = apiService.addStory(multipartBody, requestBody)
+            val successResponse = apiService.addStory(multipartBody, requestBody,
+                latRequestBody, lonRequestBody)
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()

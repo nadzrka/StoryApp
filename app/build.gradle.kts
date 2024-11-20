@@ -46,15 +46,14 @@ android {
 
 dependencies {
 
-    implementation(libs.play.services.maps.v1820)
     implementation(libs.play.services.location)
     implementation(libs.androidx.room.ktx)
     ksp(libs.room.compiler)
-    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
-    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 
-    testImplementation(libs.androidx.core.testing) // InstantTaskExecutorRule
-    testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test) 
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
     implementation(libs.androidx.room.paging)
