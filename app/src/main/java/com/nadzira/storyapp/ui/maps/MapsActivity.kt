@@ -113,6 +113,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .title(data.name)
                             .snippet(data.description)
                     )
+                    Log.d("MapUpdate", "Adding story: ${data.name} at $latLng")
                 }
                 showLoading(false)
             }

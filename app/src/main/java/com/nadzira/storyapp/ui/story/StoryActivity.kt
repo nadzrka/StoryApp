@@ -67,7 +67,12 @@ class StoryActivity : AppCompatActivity() {
         storyAdapter = StoryAdapter { navigateToDetailEvent(it) }
         binding?.rvStory?.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = storyAdapter
+            binding?.rvStory?.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = storyAdapter.withLoadStateFooter(
+                    footer = LoadingStateAdapter { storyAdapter.retry() }
+                )
+            }
         }
         val fab: View = findViewById(R.id.addButton)
         fab.setOnClickListener { view ->
