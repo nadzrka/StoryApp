@@ -3,7 +3,6 @@ package com.nadzira.storyapp.remote.retrofit
 import com.nadzira.storyapp.remote.response.DetailResponse
 import com.nadzira.storyapp.remote.response.FileUploadResponse
 import com.nadzira.storyapp.remote.response.LoginResponse
-import com.nadzira.storyapp.remote.response.RegisterResponse
 import com.nadzira.storyapp.remote.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -23,7 +22,7 @@ interface ApiService {
         @Field("name") name: String,
         @Field("email") email: String,
         @Field("password") password: String
-    ): RegisterResponse
+    ): FileUploadResponse
 
     @FormUrlEncoded
     @POST("login")

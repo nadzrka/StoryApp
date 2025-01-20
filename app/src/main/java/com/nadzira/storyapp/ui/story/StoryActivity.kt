@@ -42,8 +42,8 @@ class StoryActivity : AppCompatActivity() {
         userPreference = UserPreference(this)
         setSupportActionBar(binding?.toolbar)
         supportActionBar?.title = getString(R.string.story)
-        val mapButton = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.map_button)
-        mapButton.setOnClickListener {
+
+        binding?.mapButton?.setOnClickListener{
             startActivity(Intent(this, MapsActivity::class.java))
         }
 
@@ -75,7 +75,7 @@ class StoryActivity : AppCompatActivity() {
             }
         }
         val fab: View = findViewById(R.id.addButton)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
         }
@@ -134,7 +134,7 @@ class StoryActivity : AppCompatActivity() {
 
     private fun navigateToDetailEvent(story: StoryEntity) {
         val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_STORY_ID, story.id.toString())
+            putExtra(DetailActivity.EXTRA_STORY_ID, story.id)
         }
         startActivity(intent)
     }

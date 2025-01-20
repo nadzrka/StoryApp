@@ -8,8 +8,7 @@ import com.nadzira.storyapp.BuildConfig.BASE_URL
 import okhttp3.Interceptor
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig {
-    companion object{
+object ApiConfig {
         fun getApiService(token: String): ApiService {
             val loggingInterceptor = if(BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -34,5 +33,4 @@ class ApiConfig {
                 .build()
             return retrofit.create(ApiService::class.java)
         }
-    }
 }
